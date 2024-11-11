@@ -18,16 +18,16 @@ jobs:
       - name: Setup .NET Core SDK
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '8.x'  # Use the required version
+          dotnet-version: '8.0'  # Use the required version
 
       - name: Restore Dependencies
-        run: dotnet restore
+        run: dotnet restore Bahrin-Harbour/Bahrin-Harbour.sln
 
       - name: Build
-        run: dotnet build --configuration Release --no-restore
+        run: dotnet build Bahrin-Harbour/Bahrin-Harbour.sln --configuration Release --no-restore  # Update the path
 
       - name: Publish
-        run: dotnet publish -c Release -o ./publish
+        run: dotnet publish Bahrin-Harbour/Bahrin-Harbour.sln -c Release -o ./publish  # Update the path
 
       - name: Stop IIS
         run: |

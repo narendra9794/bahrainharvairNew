@@ -80,11 +80,11 @@ jobs:
       - name: FTP Deploy to Production
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
+          server: ${{ secrets.FTP_SERVER_PRODUCTION }}
+          username: ${{ secrets.FTP_USERNAME_PRODUCTION }}
+          password: ${{ secrets.FTP_PASSWORD_PRODUCTION }}
           local-dir: ./publish/
-          server-dir: ${{ secrets.FTP_REMOTE_PATH_PRODUCTION }}  # Production remote path
+          server-dir: ${{ secrets.FTP_REMOTE_PATH_PRODUCTION_PRODUCTION }}  # Production remote path
           timeout: 30000
 
       - name: Start IIS

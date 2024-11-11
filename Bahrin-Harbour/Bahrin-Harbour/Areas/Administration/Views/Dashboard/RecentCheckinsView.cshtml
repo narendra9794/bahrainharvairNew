@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Bahrin.Harbour.Model.VisitHistoryModel.VisitHistoryView>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@if (Model != null && Model.Any())
+{
+    @foreach (var item in Model)
+    {
+        <div class="d-flex justify-content-between border_1 align-items-center">
+            <div class="media">
+                <div class="media-body d-flex">
+                    <img src="@item.ClientImageLink" alt="User Image" height="50" width="50" >
+                    <div class="ms-2">
+                        <p class="mb-0 font-500 text-dark font-11 bagde">@item.ClientIntId</p>
+                        <span class="font-12 text-dark">@item.OutletName</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="media1 text-right">
+                <p class="mb-0 font-500 text-dark font-11">
+                    <i class="fadeIn animated bx bx-calendar font-14"></i> @item.CheckinDate
+                </p>
+                <a asp-area="Administration" asp-controller="Client" asp-action="Details" asp-route-id="@item.ClientId" class="font-12 text-oranger text-underline">View</a>
+            </div>
+        </div>
+    }
+}
+
+
+
+<div id="recent-checkins-container">
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+    if (typeof loadRecentCheckins === 'undefined') {
+        function loadRecentCheckins() {
+            $.ajax({
+                url: '@Url.Action("GetRecent", "Dashboard")',
+                type: 'GET',
+                success: function (data) {
+                    $('#recent-checkins-container').html(data);
+                },
+                error: function (xhr, status, error) {
+                    console.error("An error occurred while fetching recent check-ins: ", error);
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            loadRecentCheckins();
+        });
+    }
+</script>

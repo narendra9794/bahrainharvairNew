@@ -1,0 +1,318 @@
+﻿@model Bahrin.Harbour.Model.ClientModel.ClientViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+<style>
+   #LoyalityCard-list-table_paginate {
+    position: absolute;
+    bottom: -10%; 
+    right: 8%; 
+  }
+
+  #LoyalityCard-list-table_info {
+    position: absolute;
+    bottom: -6%;
+    left: 17%;
+  }
+
+  span.select2-container.select2-container--bootstrap4.select2-container--open {
+    z-index: 99999;
+  }
+
+  #LoyalityCard-list-table {
+    border: 1px solid #cfcece;
+    border-radius: 28px;
+    padding: 10px;
+    margin-top: 40px;
+    box-sizing: auto;
+  }
+/* </style>
+<style> */
+  /* Basic styling for dropdown list */
+  #suggestions {
+    border: 1px solid #ccc;
+    max-height: 150px;
+    overflow-y: auto;
+    position: absolute;
+    background-color: #fff;
+    width: 300px;
+  }
+
+    #suggestions li {
+      padding: 8px;
+      cursor: pointer;
+    }
+
+      #suggestions li:hover {
+        background-color: #f0f0f0;
+      }
+
+  .btn.btn-sm {
+    padding: 5px 8px !important;
+    line-height: 20px;
+    font-size: 1rem;
+  }
+</style>
+<div id="myModal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeModal()">&times;</span>
+    <h4>Generate Loyality Card</h4>
+    <!-- Dropdown in the modal -->
+    <div class="form-group">
+      <label class="form-label">Client<span class="text-danger">*</span></label>
+      <select asp-for="ClientId" class="form-select form-control  single-select" aria-label="Default select example" id="ClientId" asp-items="@ViewBag.Clients" autocomplete="off" onkeyup="getSuggestions(this.value)">
+        <option value="" id="suggestions">Select a Client</option>
+      </select>       
+    </div>
+    <div class="form-group text-center">
+         <button onclick="generateCard()" class="btn btn btn_warning font-14 ms-auto px-4 ">Generate Card</button>
+    </div>
+    <div class="form-group text-center" style="display: none;" id="buttonvpd">
+    @*   <button onclick="ViewCard()" class="btn btn btn_warning font-14 ms-auto px-4 ">View</button> *@
+      @* <button onclick="PrintCard()" class="btn">Print</button> *@
+      <button onclick="DownloadCard()" class="btn btn btn_warning font-14 ms-auto px-4 ">Download</button>
+    </div>
+  </div>
+</div>
+<div >
+<table class="table align-middle mb-0" id="LoyalityCard-list-table">
+    <thead class="table-light">
+        <tr>
+          @*   <th></th> *@
+            <th>Client Name </th>
+            <th>Client Email</th>
+            <th>Client Contact no.</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+</table>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <script>
+       $(document).ready(function () {
+         BindLoyaltyCard();
+       });
+
+     
+  function BindLoyaltyCard() {
+    debugger;
+    var table = $("#LoyalityCard-list-table").DataTable({
+
+      oLanguage: { sProcessing: "<div id='DataTable-loader'></div>" },
+      initComplete: function () {
+        var searchInput = $('#LoyalityCard-list-table_filter input');
+        searchInput.attr('placeholder', 'Search...');
+      },
+      "sAjaxSource": "@Url.Action("GetAll", "LoyalityCard")",
+      "dom": 'fpi',
+      "order": [[0, "desc"]],
+      "aoColumns": [
+        // {
+        //    "sName": "",
+        //    "render": function (data, type, full, meta) {
+        //     var checkbox = '<input type="checkbox" name="selectRow" value="' + full.ClientGuid + '">';
+        //      return checkbox;
+        //    }
+        // },
+        {
+          "sName": "ClientName",
+          "render": function (data, type, full, meta) {
+            var strString = '';
+            strString += full[1];
+            return strString;
+          }
+        },
+        {
+          "sName": "Email",
+          "render": function (data, type, full, meta) {
+            var strString = '';
+            strString += full[2];
+            return strString;
+          }
+        },
+        {
+          "sName": "ContactNumber",
+          "render": function (data, type, full, meta) {
+            var strString = '';
+            strString += full[3];
+            return strString;
+          }
+        },
+        {
+          "sName": "Active",
+          "bSortable": false,
+          "render": function (data, type, full, meta) {
+            var strString = '';
+            if (full[4] == "True") {
+              strString += '<div class="form-check form-switch">';
+              strString += '  <input class="form-check-input" type="checkbox" checked onclick=ChangeStatus(\'' + full[0] + '\',false)>';
+              strString += '</div>';
+            } else {
+              strString += '<div class="form-check form-switch">';
+              strString += '  <input class="form-check-input" type="checkbox" onclick=ChangeStatus(\'' + full[0] + '\',true)>';
+              strString += '</div>';
+            }
+            return strString
+          },
+        },
+        {
+          "sName": "Active",
+          "bSortable": false,
+          "render": function (data, type, full, meta) {
+            var strString = '';
+
+            // strString += '&nbsp;<a class="lni lni-eye font-20 btn btn-sm btn-primary"" href="@Url.Action("View", "LoyalityCard")?ClientGuidId=' + full[0] + '"  title="View"><i class="fa fa-list"></i></a>';
+
+            strString += '&nbsp;<a class="fadeIn animated bx bx-download btn btn-sm btn-warning"  href="@Url.Action("Download", "LoyalityCard")?ClientGuidId=' + full[0] + '" title="Download"></a>';
+            return strString
+          },
+          "bSortable": true
+        }
+
+      ]
+    });
+  }
+       function ChangeStatus(Id, isActivate) {
+         var userId = Id;
+         debugger;
+      
+         $.confirm({
+           icon: 'fa fa-warning',
+           title: isActivate ? 'Activate..!' : 'Deactive..!',
+           content: `Are you sure you want to ${isActivate ? 'Activate' : 'Deactivate'} this Client? <br/>Do you want to continue?`,
+           buttons: {
+             '<i class="fa fa-check-circle"></i> Confirm': function () {
+               if (String(userId) != '0') {
+                 debugger;
+                 $.ajax({
+              
+              url: '@Url.Action("CreateOrUpdate", "LoyalityCard")',
+                   type: "POST",
+
+              data: { ClientGuidId: userId, ActiveStatus: isActivate },
+                   dataType: "json",
+                   async: false,
+                   success: function (response) {
+                     if (response.status == true) {
+                       debugger;
+                       toasterSuccessMessage(response.message)
+                       debugger;
+                  $('#LoyalityCard-list-table').DataTable().destroy();
+                  BindLoyaltyCard();
+      
+                     } else {
+                       toasterErrorMessage(response.message);
+                       StopDataLoader();
+                     }
+                   },
+                   failure: function () {
+                     toasterErrorMessage("Error");
+                     StopDataLoader();
+                   }
+                 });
+               }
+               return true;
+             },
+             '<i class="fa fa-times-circle"></i> Cancel': function () {
+               // return false;
+             }
+           }
+         });
+       }
+      
+       function toasterSuccessMessage(message) {
+         toastr.success(message);
+       }
+    </script>
+<script>  
+  function openModal() {
+    $("#myModal").css("display", "flex");
+  }
+  function closeModal() {
+    $("#myModal").css("display", "none");
+  }
+  function generateCard() {
+      var Clientid = $("#ClientId").val();
+      var formData = new FormData();
+      formData.append("ClientGuidId", Clientid);
+    if (!Clientid) {
+      alert("Please Enter the Client");
+      return;
+    }
+    var formData = new FormData();
+    formData.append("ClientGuidId", Clientid); 
+    $.ajax({
+      url: '@Url.Action("CreateOrUpdate", "LoyalityCard")',
+      type: 'POST',
+      processData: false,
+      contentType: false,
+      data: formData,
+      success: function (response) {
+        alert("Card generated successfully!");
+        $("#buttonvpd").css("display", "block");
+        //BindLoyaltyCard();
+      }
+    });
+  }
+  function DownloadCard() {
+    debugger
+    var Clientid = $("#ClientId").val();
+    debugger;
+    $.ajax({
+      url: '@Url.Action("Download", "LoyalityCard")' + '?ClientGuidId=' + Clientid,
+      type: 'GET',
+      success: function (response) {
+        closeModal();
+      }
+
+    });
+  }
+  function ViewCard() {
+    debugger
+    var Clientid = $("#ClientId").val();
+    debugger;
+    $.ajax({
+      url: '@Url.Action("View", "LoyalityCard")' + '?ClientGuidId=' + Clientid,     
+      type: 'Get',     
+      success: function (response) {
+        closeModal();
+      }
+
+    });
+  }
+</script>
+<script>
+  function getSuggestions(query) {
+    debugger
+    if (query.length === 0) {
+      $('#suggestions').empty();
+      return;
+    }
+    $.ajax({
+      url: '/LoyalityCard/Index',
+      method: 'GET',
+      data: { query: query },
+      success: function (response) {
+        $('#suggestions').empty();
+        if (response.length > 0) {
+          response.forEach(function (item) {
+            $('#suggestions').append('<li onclick="selectSuggestion(\'' + item + '\')">' + item + '</li>');
+          });
+        } else {
+          $('#suggestions').append('<li>No results found</li>');
+        }
+      }
+    });
+  }
+
+  function selectSuggestion(value) {
+    $('#search').val(value);
+    $('#suggestions').empty();
+  }
+</script>

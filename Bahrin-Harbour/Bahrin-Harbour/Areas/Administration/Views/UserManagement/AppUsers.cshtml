@@ -1,0 +1,70 @@
+﻿@*     /////////////////////////////////////////////////////////////////////////////////////////
+ *@
+
+<!--start wrapper-->
+<div class="wrapper">
+  <!--start top header-->
+  <?php include('header.php'); ?>
+  <!--start content-->
+  <main class="page-content">
+    <div class="radius-10 px-3">
+      <div class="card-header bg-transparent border-0">
+        <div class="row g-3 align-items-center">
+          <div class="col-12 col-md-6 col-lg-6">
+            <h4 class="mb-0 font-600 text-dark"> User Management </h4>
+          </div>
+          <div class="col-12 col-md-6 col-lg-6 text-right">
+            <a href="CreateAppUser" class="btn btn_warning font-14 ms-auto px-4"><i class="fadeIn animated bx bx-plus font-20"></i> Add New User</a>
+          </div>
+        </div>
+
+        <div class="row g-3 align-items-center mt-3">
+          <div class="col-12 col-md-8 col-lg-8 d-flex">
+            <div class="d-lg-flex">
+             @*  <div class="searchbar me-3 w-100 mb-3">
+                <label class="form-label"> &nbsp;</label>
+                <div class="position-absolute top_50 translate-middle-y search-icon ms-3"><i class="bi bi-search"></i></div>
+                <input class="form-control ps_4" type="text" placeholder="Search">
+              </div> *@
+              @* <div class="w-100 me-3">
+                <label class="form-label">Outlet</label>
+                <select class="form-select mb-3 form-control" aria-label="Default select example">
+                  <option selected="">All</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </select>
+              </div>   *@            
+            </div>
+          </div>
+
+            
+
+
+        </div>
+      </div>
+      <div class="card-body mt-3">
+        <div class="table-responsive">
+          <div class="row">        
+
+          @await Html.PartialAsync("AppUserList")
+
+        </div>
+
+@*         <div class="row mt-4"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="example_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-12 col-md-7 text-right"><div class="dataTables_paginate paging_simple_numbers text-right" id="example_paginate"><ul class="pagination float-right"><li class="paginate_button page-item previous disabled" id="example_previous"><a href="#" aria-controls="example" data-dt-idx="0" tabindex="0" class="page-link">Prev</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="example" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="example" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="example" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="example" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="example" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="example" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="example_next"><a href="#" aria-controls="example" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li></ul></div></div></div> *@
+      </div>
+
+    </div>
+  </main>
+  <!--end page main-->
+  <!--start overlay-->
+  <div class="overlay nav-toggle-icon"></div>
+  <!--end overlay-->
+  <!--Start Back To Top Button-->
+  <a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
+  <!--End Back To Top Button-->
+  <!--start switcher-->
+</div>
+<!--end wrapper-->
+    </div>
+<!-- Bootstrap bundle JS -->

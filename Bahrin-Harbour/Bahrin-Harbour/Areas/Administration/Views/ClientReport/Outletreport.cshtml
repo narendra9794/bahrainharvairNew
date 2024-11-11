@@ -1,0 +1,192 @@
+﻿
+@{
+    ViewData["Title"] = "Outletreport";
+    Layout = "~/Areas/Administration/Views/Shared/_Layout.cshtml";
+}
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"
+<!--start wrapper-->
+<div class="wrapper">
+    <!--start top header-->
+    <?php include('header.php'); ?>
+    <!--start content-->
+    <main class="page-content">
+        <div class="px-3">
+            <div class="card-header bg-transparent border-0">
+                <div class="row g-3 align-items-center">
+                    <div class="col-12 col-md-4 col-lg-4">
+                        <h4 class="mb-0 font-600">Outlets Visit Report</h4>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body profile">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row mt-1">
+
+                            <div class="col-12 col-lg-4 col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label">All Outlets</label>
+                                    <select class="form-control" id="outlets">
+                                        <option value="0">All Outlet</option>
+
+                                        <!-- Add more options as needed -->
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-4 col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label">From Date</label>
+                                    <input type="date" class="form-control" id="startDate">
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-4 col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label">To Date</label>
+                                    <input type="date" class="form-control" id="endDate">
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-4 col-md-4">
+                                <div class="mb-3">
+                                    <button type="button" class="btn btn-primary" id="btnExport">Export XLS</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <table class="table table-bordered table-striped" id="clientTable">
+                        <thead>
+                            <tr>
+                                <th>UserId</th>                                                                                                              
+                                <th>Name</th>
+                                <th>Representative Name</th>
+                                <th>Representative Discount</th>
+                                <th>Checkin</th>
+                                <th>Visit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="2" class="text-center">No Data Available</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- end cardbody -->
+                </div>
+
+            </div>
+        </div>
+    </main>
+    <!--end page main-->
+    <!--start overlay-->
+    <div class="overlay nav-toggle-icon"></div>
+    <!--end overlay-->
+    <!--Start Back To Top Button-->
+    <a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
+    <!--End Back To Top Button-->
+    <!--start switcher-->
+</div>
+
+<!--plugins-->
+<script src="~/js/jquery.min.js"></script>
+<script src="~/js/pace.min.js"></script>
+<script src="~/js/site.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    $(document).ready(function () {
+        
+        $.ajax({
+            url: '/Administration/ClientReport/Outletdropdowndata',
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                //console.log(data);
+                var $dropdown = $('#outlets');
+
+                data.forEach(function (outlet) {
+                    $dropdown.append($('<option></option>').attr('value', outlet.id).text(outlet.outletName));
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error("Error fetching outlets:", error);
+                alert("An error occurred while loading outlets. Please try again later.");
+            }
+        });
+        $('#btnExport').click(function () {
+            const startDate = $('#startDate').val();
+            const endDate = $('#endDate').val();
+            const id = $('#outlets').val();
+            debugger
+            if (!startDate || !endDate) {
+                alert("Please select both start and end dates.");
+                return;
+            }
+            if (new Date(startDate) > new Date(endDate)) {
+                alert("End date must be after start date.");
+                return;
+            }
+            // if (id === "0" || !id) { 
+            //     alert("Please select an outlet.");
+            //     return;
+            // }
+            if (id === 0) 
+            {
+                let id = 0;
+            }
+            $.ajax({
+                url: '/Administration/ClientReport/OutletVisitrepordata',
+                type: 'GET',
+                data: {
+                    StartDate: startDate,
+                    EndDate: endDate,
+                    Id: id
+                },
+                success: function (response) {
+                    console.log(response);
+                    $('#clientTable tbody').empty();
+
+                    if (response && response.length) {
+                        response.forEach(function (client) {
+                            let checkinDate = client.checkinDate ? new Date(client.checkinDate) : null;
+                            let visitDate = client.visitDate ? new Date(client.visitDate) : null;
+                            let checkindate = checkinDate && !isNaN(checkinDate) ? checkinDate.toLocaleDateString('en-GB') : '0';
+                            let visitdated = visitDate && !isNaN(visitDate) ? visitDate.toLocaleDateString('en-GB') : '0';
+                            $('#clientTable tbody').append(
+                                `<tr>
+                                                <td>${client.clientid}</td>
+                                                <td>${client.clientName}</td>
+                                                <td>${client.representativeName}</td>
+                                                <td>${client.salesRefersDIS}</td>
+                                                <td>${checkindate}</td>
+                                                <td>${visitdated}</td>
+                                 </tr>`
+                            );
+                        });
+
+                        const downloadUrl = `/Administration/ClientReport/OutletVisitrepordata?StartDate=${startDate}&EndDate=${endDate}&Id=${id}&download=true`;
+                        window.location.href = downloadUrl; 
+                    } 
+                    else 
+                    {
+                        $('#clientTable tbody').append(
+                            `<tr>
+                                 <td colspan="3" class="text-center">No Data Available</td>
+                             </tr>`
+                        );
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error generating report:", error);
+                    alert("An error occurred while generating the report. Please try again.");
+                }
+            });
+        });
+    });
+</script>
+
+
+

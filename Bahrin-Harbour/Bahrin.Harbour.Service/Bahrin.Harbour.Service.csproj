@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="itext7" Version="8.0.5" />
+    <PackageReference Include="itext7.bouncy-castle-adapter" Version="8.0.5" />
+    <PackageReference Include="itext7.bouncy-castle-fips-adapter" Version="8.0.5" />
+    <PackageReference Include="MailKit" Version="4.8.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.1.22" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="3.1.32" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.1.39" />
+    <PackageReference Include="MimeKit" Version="4.8.0" />
+    <PackageReference Include="QRCoder" Version="1.6.0" />
+    <PackageReference Include="SkiaSharp" Version="2.88.8" />
+    <PackageReference Include="ZXing.Net" Version="0.16.9" />
+	<PackageReference Include="BouncyCastle.NetCore" Version="1.8.9" />
+
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Bahrin.Harbour.Data\Bahrin.Harbour.Data.csproj" />
+    <ProjectReference Include="..\Bahrin.Harbour.Helper\Bahrin.Harbour.Helper.csproj" />
+    <ProjectReference Include="..\Bahrin.Harbour.Model\Bahrin.Harbour.Model.csproj" />
+  </ItemGroup>
+
+</Project>

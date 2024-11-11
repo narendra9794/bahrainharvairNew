@@ -1,0 +1,183 @@
+﻿@model Bahrin.Harbour.Model.ClientModel.ClientViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+  // Layout = null;
+}
+
+<style>
+  .propertydiv{
+    border: 1px solid #cfcece;
+    border-radius: 28px;
+    padding: 10px;
+    margin-top: 40px;
+  }
+</style>
+<!--start wrapper-->
+<div class="wrapper">
+  <!--start top header-->
+  <?php include('header.php'); ?>
+  <!--start content-->
+  <main class="page-content">
+    <div class="px-3">
+      <div class="card-header bg-transparent border-0">
+        <div class="row g-3 align-items-center">
+          <div class="col-12 col-md-4 col-lg-4">
+            @*  <h4 class="mb-0 font-600">Add New Client</h4> *@
+            <h4 class="mb-0 font-600">
+              Client Detail
+            </h4>
+          </div>
+        </div>
+      </div>
+      <div class="card-body profile">
+        <div class="row g-3 align-items-center mt-1">
+          <div class="col-12 col-md-4 col-lg-4">
+
+            <div class="small-12 medium-2 large-2 columns position-relative">
+              <div class="circle">
+                @*   <img class="profile-pic" src="@Model.ClientProfileImageLink" alt="avatar-2" width="32" id="imageid"/> *@
+                <img class="profile-pic" src="@(string.IsNullOrEmpty(Model.ClientProfileImageLink) ? Url.Content("~/images/profile2.png") : Model.ClientProfileImageLink)" alt="avatar-2" width="32" id="imageid" disabled />
+              </div>
+              
+            </div>
+          </div>
+
+          
+        </div>
+
+        <div class="row g-3 align-items-center mt-4 mb-2">
+          <div class="col-12 col-md-2 col-lg-2">
+            <label class="font-500 font-18 text-dark">Personal Details</label>
+          </div>
+        </div>
+        <form asp-action="Signin" asp-controller="Account" method="post">
+          <input asp-for="Id" hidden />
+          <div class="row mb-3">
+            <div class="col-12 col-md-4 col-lg-4 mb-4">
+              <label class="form-label">Name<span class="text-danger">*</span></label>
+              <input asp-for="ClientName" class="form-control" type="text" id="Name" disabled />
+            </div>
+            <div class="col-12 col-md-4 col-lg-4 mb-4" hidden>
+              <label class="form-label">Name<span class="text-danger">*</span></label>
+              <input asp-for="Name" class="form-control" type="text" id="Name" disabled />
+            </div>
+
+            <div class="col-12 col-md-4 col-lg-4 mb-4">
+              <label class="form-label">Email Address<span class="text-danger">*</span></label>
+              <input asp-for="EmailAddress" class="form-control" type="mail" id="Email" disabled />
+            </div>
+
+            <div class="col-12 col-md-4 col-lg-4 mb-4">
+              <label class="form-label">Phone no.<span class="text-danger">*</span></label>
+              <input asp-for="Phone" class="form-control" type="number" id="phoneno" disabled />
+
+            </div>
+
+
+            <div class="col-12 col-md-4 col-lg-4 mb-4">
+              <label class="form-label">Country<span class="text-danger">*</span></label>
+
+              <select asp-for="Country" class="form-select form-control" aria-label="Default select example" id="country" disabled>
+                <option value="AF">Afghanistan</option>
+                <option value="AX">Åland Islands</option>
+                <option value="AL">Albania</option>
+                <option value="DZ">Algeria</option>
+                <option value="AS">American Samoa</option>
+                <option value="AD">Andorra</option>
+                <option value="AO">Angola</option>
+                <option value="AI">Anguilla</option>
+                <option value="AQ">Antarctica</option>
+                <option value="AG">Antigua and Barbuda</option>
+                <option value="AR">Argentina</option>
+                <option value="AM">Armenia</option>
+                <option value="AW">Aruba</option>
+                <option value="AU">Australia</option>
+                <option value="AT">Austria</option>
+                <option value="AZ">Azerbaijan</option>
+                <option value="BS">Bahamas</option>
+                <option value="BH">Bahrain</option>
+                <option value="BD">Bangladesh</option>
+                <option value="BB">Barbados</option>
+                <option value="BY">Belarus</option>
+                <option value="BE">Belgium</option>
+                <option value="BZ">Belize</option>
+                <option value="BJ">Benin</option>
+                <option value="BM">Bermuda</option>
+                <option value="BT">Bhutan</option>
+              </select>
+            </div>
+
+
+            <div class="col-12 col-md-4 col-lg-4 mb-4">
+              <label class="form-label">City<span class="text-danger">*</span></label>
+
+              <select asp-for="City" class="form-select form-control" aria-label="Default select example" id="city" disabled>
+                <option value="AX">Åland Islands</option>
+                <option value="AL">Albania</option>
+                <option value="DZ">Algeria</option>
+                <option value="AS">American Samoa</option>
+                <option value="AD">Andorra</option>
+              </select>
+            </div>
+
+            <div class="col-12 col-md-4 col-lg-4 mb-4">
+              <label class="form-label">State<span class="text-danger">*</span></label>
+              <input asp-for="State" class="form-control" type="text" id="state" disabled />
+            </div>
+
+            <div class="col-12 col-md-4 col-lg-4 mb-4">
+              <label class="form-label">Postcode<span class="text-danger">*</span></label>
+              <input asp-for="Postcode" class="form-control" type="number" placeholder="Post Code" id="postcode" disabled>
+            </div>
+            <div class="col-12 col-md-4 col-lg-4 mb-4">
+              <label class="form-label">Address<span class="text-danger">*</span></label>
+              <input asp-for="Address" class="form-control" type="text" id="address" disabled />
+            </div>
+            <div class="col-14 col-md-8 col-lg-11 text-right">
+              <button type="button" class="btn btn-outline-secondary font-14 me-2" style="background-color: red; color: white; border-color: red;" onclick="Cancel()">Cancel</button>
+             
+            </div>
+          </div>
+        </form>
+      </div>
+
+  </main>
+  <!--end page main-->
+  <!--start overlay-->
+  <div class="overlay nav-toggle-icon"></div>
+  <!--end overlay-->
+  <!--Start Back To Top Button-->
+  <a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
+  <!--End Back To Top Button-->
+  <!--start switcher-->
+</div>
+<!--end wrapper-->
+<!-- Bootstrap bundle JS -->
+
+
+
+
+
+<script src="~/js/bootstrap.bundle.min.js"></script>
+<!--plugins-->
+<script src="~/js/jquery.min.js"></script>
+<script src="~/plugins/simplebar/js/simplebar.min.js"></script>
+<script src="~/plugins/metismenu/js/metisMenu.min.js"></script>
+<script src="~/plugins/easyPieChart/jquery.easypiechart.js"></script>
+<script src="~/plugins/peity/jquery.peity.min.js"></script>
+<script src="~/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
+<script src="~/js/pace.min.js"></script>
+<script src="~/plugins/vectormap/jquery-jvectormap-2.0.2.min.js"></script>
+<script src="~/plugins/vectormap/jquery-jvectormap-world-mill-en.js"></script>
+<script src="~/plugins/apexcharts-bundle/js/apexcharts.min.js"></script>
+<script src="~/plugins/datatable/js/jquery.dataTables.min.js"></script>
+<script src="~/plugins/datatable/js/dataTables.bootstrap5.min.js"></script>
+<!--app-->
+<script src="~/js/app.js"></script>
+<script>
+  function Cancel() {
+    debugger;
+    window.location.href = "/Administration/client/Clients";
+  }
+</script>

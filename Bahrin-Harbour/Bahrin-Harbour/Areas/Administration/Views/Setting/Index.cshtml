@@ -1,0 +1,53 @@
+﻿@{
+    Layout = "~/Areas/Administration/Views/Shared/_Layout.cshtml";
+}
+    <div class="wrapper">
+        <!--start top header-->
+        <?php include('header.php'); ?>
+        <!--start content-->
+        <main class="page-content">
+            <div class="px-3">
+                <div class="card-header bg-transparent border-0 mb-4">
+                    <div class="row g-3 align-items-center">
+                        <div class="col-12 col-md-12 col-lg-12">
+                            <h5 class="mb-1">Settings</h5>
+                            <p class="font-14">Manage your details and Personal preferences here</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+
+                    <ul class="nav nav-pills mb-3" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link active px-lg-4" data-bs-toggle="pill" href="#primary-pills-home" role="tab" aria-selected="true">
+                                <div class="tab-title">Mail Setting</div>
+                            </a>
+                        </li>
+
+                        
+                    </ul>
+                    <div class="tab-content mt-4" id="pills-tabContent">
+
+
+                        @await Html.PartialAsync("MailSetting")
+                        @await Html.PartialAsync("SendTestMail")
+
+                        <div class="tab-pane fade" id="primary-pills-profile" role="tabpanel">
+
+
+                        </div>
+
+                      
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <div class="overlay nav-toggle-icon"></div>
+
+        <a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
+    </div>

@@ -1,0 +1,53 @@
+﻿@* <canvas id="checkinChart" width="400" height="200">wddf</canvas>
+<div id="chart12"></div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: '/api/CheckIn/GetCheckInData',
+            method: 'GET',
+            success: function (data) {
+                renderCheckInChart(data);
+            },
+            error: function (error) {
+                console.log("Error:", error);
+            }
+        });
+
+        // Function to render chart using Chart.js
+        function renderCheckInChart(checkInData) {
+            var ctx = document.getElementById('checkinChart').getContext('2d');
+            var checkinChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['00:00', '01:00', '02:00', '03:00', '04:30', '06:00', '07:00'],
+                    datasets: [{
+                        label: 'Client Check-in',
+                        data: checkInData, // Use the data from the API response
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+    });
+</script>
+
+
+ *@

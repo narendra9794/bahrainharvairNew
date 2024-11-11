@@ -1,0 +1,273 @@
+﻿
+ <style>
+   #client-list-table_paginate {
+    position: absolute;
+    bottom: -10%; 
+    right: 8%; 
+  }
+   #client-list-table_info{
+     position: absolute;
+     bottom: -6%;
+     left: 17%;
+   }
+
+   #client-list-table {
+  border: 1px solid #cfcece;
+  border-radius: 28px;
+  padding: 10px;
+  margin-top: 40px;
+  box-sizing: auto; 
+   }
+</style>
+<table class="table align-middle mb-0" id="client-list-table">
+    <thead class="table-light">
+        <tr>
+           @*  <th></th> *@
+            <th>Client ID</th>
+            <th>Client Name </th>
+            <th>Phone no.</th>
+            <th>Last Visit</th>
+            <th>Properties</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+
+</table>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+<script>
+
+  $(document).ready(function () {
+    BindClient();
+  });
+
+  function BindClient() {
+    debugger;
+    var table = $("#client-list-table").DataTable({
+      oLanguage: { sProcessing: "<div id='DataTable-loader'></div>" },
+      initComplete: function () {
+        var searchInput = $('#client-list-table_filter input');
+        searchInput.attr('placeholder', 'Search...');
+      },
+      "sAjaxSource": "@Url.Action("GetAllClientDetails", "Client")",     
+      "dom": 'fpi',  
+      "order": [[0, "desc"]],
+      "aoColumns": [
+        // {
+        //   "sName": "",
+        //   "render": function (data, type, full, meta) {
+        //     var checkbox = '<input type="checkbox" name="selectRow" value="' + full.Id + '">';
+        //     return checkbox;
+        //   }
+        // },
+        {
+          "sName": "ClientId",
+          "render": function (data, type, full, meta) {
+            var strString = '';
+            strString += full[1];
+            return strString;
+          }
+        },
+        {
+          "sName": "ClientName",
+          "render": function (data, type, full, meta) {
+            var strString = '';
+            var defaultImage = "/Images/profile2.png";
+            if (!full[7] || full[7].trim() === "") {
+              strString += '<img src="' + defaultImage + '" alt="avatar-2" style="width: 30px; height: 30px; border-radius: 50%; margin-right: 5px;">';
+            } else {
+              strString += '<img src="' + full[7] + '" alt="avatar-2" style="width: 30px; height: 30px; border-radius: 50%; margin-right: 5px;">';
+            }
+            strString += full[2]; 
+            return strString;
+            
+          }
+        },
+        {
+          "sName": "PhoneNumber",
+          "render": function (data, type, full, meta) {
+            var strString = '';
+            strString += full[3];
+            return strString;
+          }
+        },
+        {
+          "sName": "LastVisit",
+          "render": function (data, type, full, meta) {
+            var strString = '';
+            strString += full[4];
+            return strString;
+          }
+        },
+        {
+          "sName": "PropertyCount",
+          "render": function (data, type, full, meta) {
+            var strString = '';
+            strString += full[5];
+            return strString;
+          }
+        },
+        {
+          "sName": "Status",
+          // "bSearchable": false,
+          "bSortable": false,
+          "render": function (data, type, full, meta) {
+           /*  var strString = '';
+            if (full[6] == "True")
+              strString += '&nbsp;<a class="btn btn-xs btn-success" onclick=ChangeClientStatus(\'' + full[0] + '\',false)   title="Active"><i class="fa fa-trash"></i> Active</a>';
+            else
+              strString += '&nbsp;<a class="btn btn-xs btn-danger"  onclick=ChangeClientStatus(\'' + full[0] + '\',true)  title="Deactive"><i class="fa fa-ban"></i>Deactive</a>';
+
+             strString += '&nbsp;<a class="lni lni-eye font-20"" href="@Url.Action("ViewClient", "Client")?Id=' + full[0] + '"  title="Detail"><i class="fa fa-list"></i></a>';
+            strString += '&nbsp;<a class="fadeIn animated bx bx-pencil text-success" href="@Url.Action("AddorUpdateClientDetails", "Client")?ClientId=' + full[0] + '", title="Edit"><i class="fas fa-pencil-alt"></i></a>';
+            strString += '&nbsp;<a class="fadeIn text-success" href="@Url.Action("AddNewProperty", "Client")?ClientId=' + full[0] + '", title="Property"><i class="lni lni-apartment"></i></a>';
+            strString += '&nbsp;<a class="fadeIn animated bx bx-trash text-danger"  onclick="DeleteClient(\'' + full[0] + '\')" title="Delete"><i class="fa fa-trash"></i></a>';
+            return strString */
+            var strString = '';
+            if (full[6] == "True") {
+              strString += '<div class="form-check form-switch">';
+              strString += '  <input class="form-check-input" type="checkbox" checked onclick=ChangeClientStatus(\'' + full[0] + '\',false)>';
+              strString += '</div>';
+            } else {
+              strString += '<div class="form-check form-switch">';
+              strString += '  <input class="form-check-input" type="checkbox" onclick=ChangeClientStatus(\'' + full[0] + '\',true)>';
+              strString += '</div>';
+            }
+             return strString
+          }
+
+        },
+        {
+          "sName": "Status",
+          // "bSearchable": false,
+          "bSortable": false,
+          "render": function (data, type, full, meta) {
+           /*  var strString = '';
+            if (full[6] == "True")
+              strString += '&nbsp;<a class="btn btn-xs btn-success" onclick=ChangeClientStatus(\'' + full[0] + '\',false)   title="Active"><i class="fa fa-trash"></i> Active</a>';
+            else
+              strString += '&nbsp;<a class="btn btn-xs btn-danger"  onclick=ChangeClientStatus(\'' + full[0] + '\',true)  title="Deactive"><i class="fa fa-ban"></i>Deactive</a>';
+
+            strString += '&nbsp;<a class="lni lni-eye font-20"" href="@Url.Action("Details", "Client")?Id=' + full[0] + '"  title="Detail"><i class="fa fa-list"></i></a>';
+            strString += '&nbsp;<a class="fadeIn animated bx bx-pencil text-success" href="@Url.Action("AddorUpdateClientDetails", "Client")?ClientId=' + full[0] + '", title="Edit"><i class="fas fa-pencil-alt"></i></a>';
+            strString += '&nbsp;<a class="fadeIn text-success" href="@Url.Action("AddNewProperty", "Client")?ClientId=' + full[0] + '", title="Property"><i class="lni lni-apartment"></i></a>';
+            strString += '&nbsp;<a class="fadeIn animated bx bx-trash text-danger"  onclick="DeleteClient(\'' + full[0] + '\')" title="Delete"><i class="fa fa-trash"></i></a>';
+            return strString */
+            var strString = '';
+          
+            strString += '&nbsp;<a class="lni lni-eye font-20 btn btn-sm btn-primary"" href="@Url.Action("ViewClient", "Client")?ClientId=' + full[0] + '"  title="Detail"><i class="fa fa-list"></i></a>';
+            strString += '&nbsp;<a class="fadeIn animated bx bx-pencil btn btn-sm btn-success" href="@Url.Action("AddorUpdateClientDetails", "Client")?ClientId=' + full[0] + '", title="Edit"><i class="fas fa-pencil-alt"></i></a>';
+            strString += '&nbsp;<a class="fadeIn btn btn-warning btn-sm text-white" href="@Url.Action("Property", "Client")?ClientId=' + full[0] + '", title="Property"><i class="lni lni-apartment"></i></a>';
+            strString += '&nbsp;<a class="fadeIn animated bx bx-trash btn btn-sm btn-danger"  onclick="DeleteClient(\'' + full[0] + '\')" title="Delete"><i class="fa fa-trash"></i></a>';
+            return strString
+          },
+          "bSortable": true
+
+        }
+
+      ]
+
+    });
+  }
+
+  function ChangeClientStatus(Id, isActivate) {
+    var userId = Id;
+    debugger;
+
+    $.confirm({
+      icon: 'fa fa-warning',
+      title: isActivate ? 'Activate..!' : 'Deactive..!',
+      content: `Are you sure you want to ${isActivate ? 'Activate' : 'Deactivate'} this Client? <br/>Do you want to continue?`,
+      buttons: {
+        '<i class="fa fa-check-circle"></i> Confirm': function () {
+          if (String(userId) != '0') {
+            debugger;
+            $.ajax({
+              url: '@Url.Action("ChangeClientStatus", "Client")',
+              type: "POST",
+             // data: { Id: userId },
+              data: { Id: userId, activate: isActivate },
+              dataType: "json",
+              async: false,
+              success: function (response) {
+                if (response.status == true) {
+                  debugger;
+                  toasterSuccessMessage(response.message)
+                  debugger;
+                  $('#client-list-table').DataTable().destroy();
+                  BindClient();
+                 return false;
+                } else {
+                  toasterErrorMessage(response.message);
+                  StopDataLoader();
+                }
+              },
+              failure: function () {
+                toasterErrorMessage("Error");
+                StopDataLoader();
+              }
+            });
+          }
+          return true;
+        },
+        '<i class="fa fa-times-circle"></i> Cancel': function () {
+          // return false;
+        }
+      }
+    });
+  }
+
+  function toasterSuccessMessage(message) {
+    toastr.success(message);
+  }
+  function DeleteClient(Id) {
+    var UserId = Id;
+    debugger;
+    $.confirm({
+      icon: 'fa fa-warning',
+      title: 'Delete..!',
+      content: "You are want to Delete this Client. <br/>Do you want to Continue?",
+      buttons: {
+        '<i class="fa fa-check-circle"></i> Confirm': function () {
+          if (String(UserId) != '0') {
+            $.ajax({
+              url: '@Url.Action("DeleteClient", "Client")',
+              type: "POST",
+              data: { Id: UserId },
+              dataType: "json",
+              async: false,
+              success: function (response) {
+                debugger
+                if (response.status == true) {
+                  debugger
+                  showToast("success", response.message);
+                  // debugger
+                   // window.location.href = "/Administration/client/Clients";
+                 
+                }
+                else {
+                  showToast("error", response.message);
+                }
+                // window.location.href = "/Administration/client/Clients";
+              }
+            });
+          }
+          return true;
+        },
+        '<i class="fa fa-times-circle"></i> Cancel': function () {
+          //return false;
+        }
+      }
+    });
+  }
+
+</script>

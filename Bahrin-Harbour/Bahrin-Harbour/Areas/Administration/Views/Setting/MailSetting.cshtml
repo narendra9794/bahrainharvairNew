@@ -1,0 +1,138 @@
+﻿@model Bahrin.Harbour.Model.EmailModel.SMTPConfigModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<div class="tab-pane fade active show" id="primary-pills-home" role="tabpanel">
+    <form class="form-body pt-2" id="smtpForm" method="post">
+        <div class="row">
+            <div class="col-md-4 col-12 mb-3">
+                <label class="mb-1">Sender Display Name</label>
+                <input asp-for="SenderDisplayName" class="border-bottom2 height-50" disabled />
+            </div>
+            <div class="col-md-4 col-12 mb-3">
+                <label class="mb-1">Sender Email</label>
+                <input asp-for="SenderAddress" class="border-bottom2 height-50" disabled required/>
+            </div>
+            <div class="col-md-4 col-12 mb-3">
+                <label class="mb-1">Username</label>
+                <input asp-for="UserName" class="border-bottom2 height-50" disabled />
+            </div>
+            <div class="col-md-4 col-12 mb-3">
+                <label class="mb-1">Password</label>
+                <input asp-for="Password" class="border-bottom2 height-50 password" type="password" disabled />
+            </div>
+            <div class="col-md-4 col-12 mb-3">
+                <label class="mb-1">Port</label>
+                <input asp-for="Port" class="border-bottom2 height-50" type="number" disabled />
+            </div>
+            <div class="col-md-4 col-12 mb-3">
+                <label class="mb-1">Test Email To</label>
+                <input asp-for="TestEmailTo" class="border-bottom2 height-50" disabled />
+            </div>
+            <div class="col-md-4 col-12 mb-3">
+                <label class="mb-1">CC Email</label>
+                <input asp-for="CC" class="border-bottom2 height-50" disabled />
+            </div>
+            <div class="col-md-4 col-12 mb-3">
+                <label class="mb-1">Host</label>
+                <input asp-for="Host" class="border-bottom2 height-50" disabled />
+            </div>
+            <div class="col-md-4 col-12 mb-3">
+                <label class="mb-1">Enable SSL</label>
+                <input asp-for="EnableSSL" type="checkbox" disabled />
+            </div>
+            <div class="col-md-4 col-12 mb-3">
+                <label class="mb-1">Use Default Credentials</label>
+                <input asp-for="UseDefaultCredentials" type="checkbox" disabled />
+            </div>
+            <div class="col-md-4 col-12 mb-3">
+                <label class="mb-1">Is Html Body</label>
+                <input asp-for="IsHTMLBody" type="checkbox" disabled />
+            </div>
+        </div>
+
+        <div class="row mt-1 mb-4">
+            <div class="col-6 col-md-8 col-lg-8 text-right">
+                <button type="button" class="btn btn-primary" id="editButton">Edit</button>
+
+                <button type="button" class="btn btn-success" id="saveButton" hidden>Save</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.19.3/jquery.validate.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.19.3/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+   
+    $(document).ready(function () {
+        function fetchSMTPConfig() {
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetMailSetting", "Setting", new { area = "Administration" })', 
+                success: function (response) {
+                    $('#smtpForm input[name="SenderDisplayName"]').val(response.senderDisplayName);
+                    $('#smtpForm input[name="SenderAddress"]').val(response.senderAddress);
+                    $('#smtpForm input[name="UserName"]').val(response.userName);
+                    $('#smtpForm input[name="Password"]').val(response.password);
+                    $('#smtpForm input[name="Port"]').val(response.port);
+                    $('#smtpForm input[name="TestEmailTo"]').val(response.testEmailTo);
+                    $('#smtpForm input[name="CC"]').val(response.cc);
+                    $('#smtpForm input[name="Host"]').val(response.host);
+                    $('#smtpForm input[name="EnableSSL"]').prop('checked', response.enableSSL);
+                    $('#smtpForm input[name="UseDefaultCredentials"]').prop('checked', response.useDefaultCredentials);
+                    $('#smtpForm input[name="IsHTMLBody"]').prop('checked', response.isHTMLBody);
+                },
+                error: function (xhr, status, error) {
+                    alert('Error fetching SMTP configuration: ' + error);
+                }
+            });
+        }
+
+
+        fetchSMTPConfig();
+    
+    });
+
+
+</script>
+<script>
+
+
+
+    $('#editButton').click(function () {
+        $('input').prop('disabled', false);
+        $('#saveButton').prop('hidden', false);
+        $('#editButton').prop('hidden', true);
+        $('#imageChange').prop('hidden', false);
+    });
+
+        // AJAX request when "Save" is clicked
+        $('#saveButton').click(function () {
+            var formData = new FormData($('#smtpForm')[0]);
+
+            $.ajax({
+                url: '@Url.Action("SaveMailSetting", "Setting", new { area = "Administration" })',
+                type: 'POST',
+                processData: false,
+                contentType: false,
+                data: formData,
+                success: function (response) {
+                    if (response.status === true) {
+                        showToast("success", response.message);
+
+                        setTimeout(function () {
+                            window.location.href = '@Url.Action("Dashboard", "Dashboard", new { area = "Administration" })';
+                        }, 2000);
+                    } else {
+                        showToast("error", "All fiels are mandatory");
+                    }
+                },
+                error: function (error) {
+                    alert('Error saving settings');
+                }
+            });
+        });
+
+</script>

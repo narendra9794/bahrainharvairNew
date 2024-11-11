@@ -1,0 +1,380 @@
+﻿@model Bahrin.Harbour.Model.AppUserAuth.AppUserViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+
+@{
+    // ViewData["Title"] = "Create App User";
+    // Layout = null;
+    // var Outlets = ViewBag.Outlets;
+}
+
+<!--start wrapper-->
+<div class="wrapper">
+  <!--start top header-->
+  <?php include('header.php'); ?>
+  <!--start content-->
+  <main class="page-content">
+    <div class="px-3">
+      <div class="card-header bg-transparent border-0">
+        <div class="row g-3 align-items-center">
+          <div class="col-12 col-md-4 col-lg-4">
+            <h4 class="mb-0 font-600">Add New User</h4>
+          </div>
+        </div>
+      </div>
+      <div class="card-body profile">
+        <div class="row g-3 align-items-center mt-1">
+          <div class="col-12 col-md-4 col-lg-4">
+
+            <div class="small-12 medium-2 large-2 columns position-relative">
+              <div class="circle">
+                <img class="profile-pic" src="~/images/profile2.png" alt="avatar-2" width="32" id="imageid"/>
+              </div>
+              <div class="p-image">
+              @*   <i class="fadeIn animated bx bx-upload upload-button"></i>  Upload Image *@
+                <span class=" upload-button"><i class="fadeIn animated bx bx-upload"></i>  Upload Image</span>
+                <input class="file-upload" type="file" accept="image/*" />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-8 col-lg-8 text-right">
+            <button type="button" class="btn btn-outline-secondary font-14 me-2" style="background-color: red; color: white; border-color: red;" onclick="Cancel()">Cancel</button>
+            <button class="btn btn-success font-14 toggle" type="button" onclick="SaveUser()">Save User</button>
+          </div>
+        </div>
+
+        <div class="row g-3 align-items-center mt-4 mb-2">
+          <div class="col-12 col-md-2 col-lg-2">
+            <label class="font-500 font-18 text-dark">Personal Details</label>
+          </div>
+        </div>
+        <form asp-area="Administration" asp-action="CreateAppUser" enctype="multipart/form-data" method="post">
+          <div class="row mb-2">
+            <input asp-for="_id" hidden />
+          <div class="col-12 col-md-4 col-lg-4 mb-4">
+            <label class="form-label">Name<span class="text-danger">*</span></label>
+              <input asp-for="FirstName" class="form-control" type="text" id="FirstName" />
+          </div>
+          <div class="col-12 col-md-4 col-lg-4 mb-4" >
+            <label class="form-label">Email Address<span class="text-danger">*</span></label>
+              <input asp-for="Email" class="form-control" type="email" id="Email" />
+          </div>
+          </div>
+          <div class="row mb-2">
+          <div class="col-12 col-md-4 col-lg-4 mb-4">
+              <label class="form-label">Phone Number<span class="text-danger">*</span></label>
+              <input asp-for="PhoneNumber" class="form-control" type="number" id="PhoneNumber" />
+          </div>
+          <div class="col-12 col-md-4 col-lg-4 mb-4">
+            <label class="form-label">Select Outlet<span class="text-danger">*</span></label>
+
+            <select asp-for="OutletId" class="form-select form-control" aria-label="Default select example" id="OutletId" asp-items="@ViewBag.Outlets">
+                <option value="">Select a outlet</option>
+            </select>
+
+          </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-12 col-md-6 col-lg-6">
+              <label class="font-500 font-18 text-dark">Address</label>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-12 col-md-4 col-lg-4 mb-4">
+
+                <label class="form-label">Country<span class="text-danger">*</span></label>
+
+            <select asp-for="Country" class="form-select form-control" aria-label="Default select example" id="country">
+                <option value="">Select Country</option>
+            </select>
+                        </div>
+                        <div class="col-12 col-md-4 col-lg-4 mb-4">
+
+
+                <label class="form-label">State<span class="text-danger">*</span></label>
+                <select asp-for="State" class="form-select form-control" aria-label="Default select example" id="state">
+                    <option value="">Select State</option>
+                </select>
+          
+          </div>
+          <div class="row mb-2">
+
+            <div class="col-12 col-md-4 col-lg-4 mb-4">
+                <label class="form-label">City<span class="text-danger">*</span></label>
+
+                <select asp-for="City" class="form-select form-control" aria-label="Default select example" id="city">
+                    <option value="">Select City</option>
+                </select>
+
+            </div>
+
+            <div class="col-12 col-md-4 col-lg-4 mb-4">
+              <label class="form-label">Zip Code<span class="text-danger">*</span></label>
+              <input class="form-control" type="text" id="pincode" />
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-12 col-md-4 col-lg-4 mb-4">
+              <label class="form-label">Address<span class="text-danger">*</span></label>
+              <input asp-for="Address" class="form-control" type="text" id="Address" />
+            </div>
+            
+          </div>
+          
+        </form>
+
+      </div>
+    </div>
+  </main>
+  <!--end page main-->
+  <!--start overlay-->
+  <div class="overlay nav-toggle-icon"></div>
+  <!--end overlay-->
+  <!--Start Back To Top Button-->
+  <a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
+  <!--End Back To Top Button-->
+  <!--start switcher-->
+</div>
+<!--end wrapper-->
+<!-- Bootstrap bundle JS -->
+
+@* <script>
+  new PerfectScrollbar(".best-product")
+  new PerfectScrollbar(".top-sellers-list")
+</script> *@
+@* <script>
+  const $menu = $('.dropdown1');
+
+  $(document).mouseup(function (e) {
+    if (!$menu.is(e.target) // if the target of the click isn't the container...
+      && $menu.has(e.target).length === 0) // ... nor a descendant of the container
+    {
+      $menu.removeClass('is-active');
+    }
+  });
+
+  $('.toggle').on('click', () => {
+    $menu.toggleClass('is-active');
+  });
+
+  Fancybox.bind("[data-fancybox]", {
+    // Your custom options
+  });
+
+
+</script> *@
+
+@* <script>
+  $(document).ready(function () {
+
+    var readURL = function (input) {
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+          $('.profile-pic').attr('src', e.target.result);
+        }
+
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+
+    $(".file-upload").on('change', function () {
+      readURL(this);
+    });
+
+    $(".upload-button").on('click', function () {
+      $(".file-upload").click();
+    });
+  });
+
+</script> *@
+
+
+<script src="~/js/bootstrap.bundle.min.js"></script>
+<!--plugins-->
+<script src="~/js/jquery.min.js"></script>
+<script src="~/plugins/simplebar/js/simplebar.min.js"></script>
+<script src="~/plugins/metismenu/js/metisMenu.min.js"></script>
+<script src="~/plugins/easyPieChart/jquery.easypiechart.js"></script>
+<script src="~/plugins/peity/jquery.peity.min.js"></script>
+<script src="~/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
+<script src="~/js/pace.min.js"></script>
+<script src="~/plugins/vectormap/jquery-jvectormap-2.0.2.min.js"></script>
+<script src="~/plugins/vectormap/jquery-jvectormap-world-mill-en.js"></script>
+<script src="~/plugins/apexcharts-bundle/js/apexcharts.min.js"></script>
+<script src="~/plugins/datatable/js/jquery.dataTables.min.js"></script>
+<script src="~/plugins/datatable/js/dataTables.bootstrap5.min.js"></script>
+<!--app-->
+<script src="~/js/app.js"></script>
+
+<script>
+  function Cancel() {
+    debugger;
+    window.location.href = "/Administration/UserManagement/AppUsers";
+  }
+
+  
+
+  function SaveUser() {
+    var img = $("#imageid").val()
+    var formData = new FormData();    
+    formData.append("FirstName", $("#FirstName").val());
+    formData.append("Email", $("#Email").val());
+    formData.append("PhoneNumber", $("#PhoneNumber").val());
+    formData.append("OutletId", $("#OutletId").val());
+    formData.append("country", $("#country").val());
+    formData.append("city", $("#city").val());
+    formData.append("State", $("#state").val());
+    formData.append("ZipCode", $("#pincode").val());
+
+    formData.append("Address", $("#Address").val());
+    formData.append("ProfileImageFile", $("#imageid").val());
+    var imageFile = $('.file-upload')[0].files[0];
+    formData.append("ProfileImageFile", imageFile);
+
+    var imageFile = $('.file-upload')[0].files[0];
+
+    // Validate if an image is selected
+    if (!imageFile) {
+      alert("Profile image is required.");
+      return;
+    }
+
+    // Validate the file type (only allow image formats)
+    var validImageTypes = ["image/jpeg", "image/png"];
+    if (!validImageTypes.includes(imageFile.type)) {
+      alert("Only JPEG, PNG image formats are allowed.");
+      return;
+    }
+
+    var firstName = $("#FirstName").val();
+      if (firstName === "") {
+          alert(" Name is required.");
+          return;
+      } 
+      
+      // Validate Email
+      var email = $("#Email").val();     
+      if (email === "") {
+          alert("Email is required.");
+          return;
+    
+      } 
+      
+      // Validate PhoneNumber
+      var phoneNumber = $("#PhoneNumber").val();
+      if (phoneNumber === "") {
+          alert("Phone Number is required.");
+          return;
+      } 
+      
+      // Validate OutletId
+      var outletId = $("#OutletId").val();
+      if (outletId === "") {
+          alert("Outlet Id is required.");
+          return;
+      } 
+      
+      // Validate country
+      var country = $("#country").val();
+      if (country === "") {
+          alert("Country is required.");
+          return;
+      } 
+      
+      
+      // Validate State
+      var state = $("#state").val();
+      if (state === "") {
+          alert("State is required.");
+          return;
+      } 
+    // Validate city
+    var city = $("#city").val();
+    if (city === "") {
+      alert("City is required.");
+      return;
+    }
+
+    // Validate ZipCode
+      var zipCode = $("#pincode").val();
+      if (zipCode === "") {
+          alert("Zip Code is required.");
+          return;
+      } 
+      
+      // Validate Address
+      var address = $("#Address").val();
+      if (address === "") {
+          alert("Address is required.");
+          return;
+      } 
+      // Validate ProfileImageFile
+      var imageFile = $('.file-upload')[0].files[0];
+      if (!imageFile) {
+          alert("Profile image is required.");
+          return;
+      } 
+    // if (!$("#FirstName").val() || !$("#Email").val() || !$("#PhoneNumber").val() || !$("#OutletId").val() || !$("#country").val() || !$("#city").val() || !$("#state").val() || !$("#pincode").val() || !$("#Address").val()) {
+    //         showToast("error", "Please fill in all the required fields.");
+
+    //   return;
+    // }
+   
+    $.ajax({
+      url: '@Url.Action("CreateAppUser", "UserManagement")',
+   
+        type: 'POST',
+        processData: false,
+        contentType: false,
+        data: formData,
+        success: function (response) {
+                if (response.status === true) {
+                   // showToast("success", response.message);
+
+            } else {
+                  //  showToast("error", response.message);
+            }
+
+        $("#FirstName").val("");
+        $("#Email").val("");
+        $("#PhoneNumber").val("");
+        $("#OutletId").val("");
+        $("#city").val("");
+        $("#state").val("");
+        $("#pincode").val("");
+        $("#Address").val("");               
+        window.location.href = "/Administration/UserManagement/AppUsers";
+      }
+      });
+    }
+</script>
+
+<script>
+  $(document).ready(function () {
+    var readURL = function (input) {
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+          $('.profile-pic').attr('src', e.target.result);
+        }
+
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+
+    $(".file-upload").on('change', function () {
+      readURL(this);
+    });
+
+    $(".upload-button").on('click', function () {
+      $(".file-upload").click();
+    });
+  });
+
+</script>

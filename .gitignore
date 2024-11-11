@@ -1,0 +1,63 @@
+# Ignore Visual Studio temporary files, build results, and
+# user-specific files
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.VC.db
+*.VC.VC.opendb
+
+# Ignore .vs, .git, .github directories but track Migrations and PublicProfiles
+.vs/
+.git/
+.github/
+# Do not ignore Migrations and PublicProfiles
+!Migrations/
+!PublicProfiles/
+
+# Ignore build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# VS Code directories
+.vscode/
+.vscode/*
+
+# Rider directories
+.idea/
+.idea/*
+
+# npm package folders
+node_modules/
+jspm_packages/
+
+# RIA/Silverlight projects
+Generated_Code/
+
+# Others
+.DS_Store

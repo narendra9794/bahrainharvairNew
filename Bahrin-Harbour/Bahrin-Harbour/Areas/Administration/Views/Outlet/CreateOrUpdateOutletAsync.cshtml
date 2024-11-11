@@ -1,0 +1,204 @@
+﻿
+@model Bahrin.Harbour.Model.OutletModel.OutletViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+  // Layout = null;
+}
+
+<!--start wrapper-->
+<div class="wrapper">
+  <!--start top header-->
+  <?php include('header.php'); ?>
+  <!--start content-->
+  <main class="page-content">
+    <div class="px-3">
+      <div class="card-header bg-transparent border-0">
+        <div class="row g-3 align-items-center">
+          <div class="col-12 col-md-4 col-lg-4">
+            <h4 class="mb-0 font-600"> @(Model.Id == @Guid.Empty ? "Adding New Outlet" : "Update Outlet")</h4>
+          </div>
+        </div>
+      </div>
+      <div class="card-body profile">
+        <div class="row g-3 align-items-center mt-1">
+          <div class="col-12 col-md-4 col-lg-4">
+
+            <div class="small-12 medium-2 large-2 columns position-relative">
+              <div class="circle">
+@*                 <img class="profile-pic" src="~/images/profile2.png" alt="avatar-2" width="32" id="imageid" /> *@
+                <img class="profile-pic" src="@(string.IsNullOrEmpty(Model.OutletImageLink) ? Url.Content("~/images/profile2.png") : Model.OutletImageLink)" alt="avatar-2" width="32" id="imageid" />
+              </div>
+              <div class="p-image">
+               <span class=" upload-button"><i class="fadeIn animated bx bx-upload"></i>  Upload Outlet Logo</span> 
+                <input class="file-upload" type="file" accept="image/*" />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-8 col-lg-8 text-right">
+            <button type="button" class="btn btn-outline-secondary font-14 me-2" style="background-color: red; color: white; border-color: red;" onclick="Cancel()">Cancel</button>
+
+            <button class="btn btn-success font-14 toggle" type="button" onclick="SaveOutlet()">Save Outlet</button>
+          </div>
+        </div>
+
+        <div class="row g-3 align-items-center mt-4 mb-2">
+          <div class="col-12 col-md-2 col-lg-2">
+            <label class="font-500 font-18 text-dark">Outlet Details</label>
+          </div>
+        </div>
+        <form asp-area="Administration" asp-action="CreateOrUpdateOutlet" enctype="multipart/form-data" method="post">
+          <input asp-for="Id" class="form-control" type="text" id="Id" hidden/>
+          <div class="row mb-2">
+            <div class="col-12 col-md-4 col-lg-4 mb-4">
+              <label class="form-label">Outlet Name<span class="text-danger">*</span></label>
+              <input asp-for="Name" class="form-control" type="text" id="Name"  />
+            </div>
+            <div class="col-12 col-md-4 col-lg-4 mb-4">
+              <label class="form-label">Country<span class="text-danger">*</span></label>
+
+                            <select asp-for="Country" class="form-select form-control" aria-label="Default select example" id="country">
+                                <option value="">Select Country</option>
+                            </select>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-12 col-md-4 col-lg-4 mb-4">
+                            <label class="form-label">State<span class="text-danger">*</span></label>
+                            <select asp-for="State" class="form-select form-control" aria-label="Default select example" id="state">
+                                <option value="">Select State</option>
+                            </select>
+            </div>
+            <div class="col-12 col-md-4 col-lg-4 mb-4">
+                           
+                            <label class="form-label">City<span class="text-danger">*</span></label>
+
+                            <select asp-for="City" class="form-select form-control" aria-label="Default select example" id="city">
+                                <option value="">Select City</option>
+                            </select>
+            </div>
+            
+          </div>
+
+          <div class="row mb-2">
+            <div class="col-12 col-md-4 col-lg-4 mb-4">
+              <label class="form-label">Address<span class="text-danger">*</span></label>
+              <input asp-for="Address" class="form-control" type="text" id="Address" />
+            </div>
+            <div class="col-12 col-md-4 col-lg-4 mb-4">
+              <label class="form-label">Discount%<span class="text-danger">*</span></label>
+              <input asp-for="DiscountPercentage" class="form-control" type="number" id="DiscountPercentage" />
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </main>
+  <!--end page main-->
+  <!--start overlay-->
+  <div class="overlay nav-toggle-icon"></div>
+  <!--end overlay-->
+  <!--Start Back To Top Button-->
+  <a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
+  <!--End Back To Top Button-->
+  <!--start switcher-->
+</div>
+<!--end wrapper-->
+<!-- Bootstrap bundle JS -->
+
+<script src="~/js/bootstrap.bundle.min.js"></script>
+<!--plugins-->
+<script src="~/js/jquery.min.js"></script>
+<script src="~/plugins/simplebar/js/simplebar.min.js"></script>
+<script src="~/plugins/metismenu/js/metisMenu.min.js"></script>
+<script src="~/plugins/easyPieChart/jquery.easypiechart.js"></script>
+<script src="~/plugins/peity/jquery.peity.min.js"></script>
+<script src="~/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
+<script src="~/js/pace.min.js"></script>
+<script src="~/plugins/vectormap/jquery-jvectormap-2.0.2.min.js"></script>
+<script src="~/plugins/vectormap/jquery-jvectormap-world-mill-en.js"></script>
+<script src="~/plugins/apexcharts-bundle/js/apexcharts.min.js"></script>
+<script src="~/plugins/datatable/js/jquery.dataTables.min.js"></script>
+<script src="~/plugins/datatable/js/dataTables.bootstrap5.min.js"></script>
+<!--app-->
+<script src="~/js/app.js"></script>
+
+<script>
+  function Cancel() {
+    debugger;
+    window.location.href = "/Administration/Outlet/Index";
+  }
+
+  function SaveOutlet() {
+    var img =$("#imageid").val()
+    debugger;
+    var formData = new FormData();
+    formData.append("Id", $("#Id").val());
+    formData.append("Name", $("#Name").val());
+    formData.append("Country", $("#country").val());
+    formData.append("City", $("#city").val());
+    formData.append("State", $("#state").val());
+    formData.append("Address", $("#Address").val());
+    formData.append("DiscountPercentage", $("#DiscountPercentage").val());   
+    formData.append("ImageFile", $("#imageid").val());
+     var imageFile = $('.file-upload')[0].files[0];
+    formData.append("ImageFile", imageFile);
+    
+    if (!$("#Name").val() || !$("#country").val() || !$("#city").val() || !$("#state").val() || !$("#Address").val() || !$("#DiscountPercentage").val()) {
+      alert("Please fill in all the required fields.");
+      return;
+    }
+    $.ajax({
+        url: '@Url.Action("CreateOrUpdateOutlet", "Outlet")',
+        type: 'POST',
+        processData: false,
+        contentType: false,
+         data: formData,
+         success: function (response) {      
+            alert("Outlet details saved successfully!");
+            $("#Id").val(""); 
+            $("#Name").val("");
+            $("#country").val("");
+            $("#city").val("");
+            $("#state").val("");
+            $("#Address").val("");
+            $("#DiscountPercentage").val("");
+             window.location.href = "/Administration/Outlet/Index";
+        }
+       
+
+    });
+  }
+</script>
+  <script>
+$(document).ready(function() {    
+    var readURL = function(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('.profile-pic').attr('src', e.target.result);
+            }
+    
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    
+
+    $(".file-upload").on('change', function(){
+        readURL(this);
+    });
+    
+    $(".upload-button").on('click', function() {
+       $(".file-upload").click();
+    });
+});
+
+    $(document).ready(function () {
+        selectLocation('@Model.Country', '@Model.State', '@Model.City');
+
+    });
+   
+      </script> 

@@ -1,0 +1,351 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}<style>
+   
+   .dataTables_wrapper .dataTables_paginate {
+     margin-top: 20px; 
+   }
+
+   #VisitHistory-list-table {
+     margin-bottom: 20px; 
+   }
+
+   #VisitHistory-list-table {
+     width: 100%; 
+   }
+
+   #VisitHistory-list-table_paginate {
+     position: absolute;
+     bottom: -10%; 
+     right: 8%; 
+   }
+
+   #VisitHistory-list-table_info{
+     position: absolute;
+     bottom: -6%;
+     left: 17%;
+   }
+
+   .btn-transparent {
+     background-color: transparent; 
+     border: none; 
+     color: inherit; 
+     cursor: pointer; 
+     padding: 5px 10px; 
+     font-size: 16px; 
+   }
+
+     .btn-transparent:hover {
+       color: #007bff;
+       text-decoration: underline; 
+     }  
+
+     .modal {
+         display: none; 
+         position: fixed; 
+         left: 0;
+         top: 0;
+         width: 100%;
+         height: 100%;
+         background-color: rgba(0, 0, 0, 0.5); 
+         justify-content: center;
+         align-items: center;
+     }
+
+     .modal-content {
+         background-color: #fff;
+         padding: 25px;
+         border-radius: 5px;
+         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+     }
+
+     .close-btn {
+       position: absolute;
+       right: 5px;
+       top: 10px;
+       cursor: pointer;
+       font-size: 20px;
+     }
+
+     .form-group {
+         margin-top: 25px;
+     }
+
+   
+   #VisitHistory-list-table {
+     border: 1px solid #cfcece;
+     border-radius: 28px;
+     padding: 10px;
+     margin-top: 40px;
+     box-sizing: auto;
+   }
+</style>
+
+@* <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleLargeModal">View Notes </button>  *@
+<div class="table-responsive">
+<table class="table align-middle mb-0" id="VisitHistory-list-table" style="width: 100%;">
+  <thead class="table-light">
+    <tr>
+      <th>Outlets Name</th>
+      <th>Outlets Location</th>
+      <th>Representative Name </th>
+      <th>Client Name</th>
+      <th>Visit Time</th>
+      <th>Notes</th>
+     </tr>
+  </thead>  
+</table>
+</div>
+
+
+
+<div class="modal fade" id="exampleLargeModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header border-0">
+        <h5 class="modal-title">Client Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body px-lg-4">
+        <div class="row">
+          <div class="col-12 col-md-3 col-lg-3 mb-4">
+            <img src="assets/images/avatars/avatar-4.png" alt="avatar-2" width="80" class="me-1 border-4" />
+          </div>
+
+          <div class="col-12 col-md-9 col-lg-9">
+            <div class="row mb-3">
+              <div class="col-md-5">
+                <p class="mb-0">  Client ID:</p>
+              </div>
+              <div class="col-md-7 border-dotted">
+                <input type="text" class="form-control" id="clientId" readonly="">
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col-md-5">
+                <p class="mb-0">  Name</p>
+              </div>
+              <div class="col-md-7 border-dotted">
+                <input type="text" class="form-control" id="clientName" readonly="">
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col-md-5">
+                <p class="mb-0">  Email Address</p>
+              </div>
+              <div class="col-md-7 border-dotted">
+                <input type="text" class="form-control" id="email" readonly="">
+              </div>
+            </div>
+
+     
+          </div>
+        </div>
+        <hr>
+
+        <div class="row mb-3">
+          <div class="col-md-12">
+            <h5 class="mt-2">  Outlet Details</h5>
+          </div>
+
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-4">
+            <p class="mb-0">  Outlet Name</p>
+          </div>
+          <div class="col-md-8 border-dotted">
+            <input type="text" class="form-control" id="outletName" readonly="">
+          
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-4">
+            <p class="mb-0">  Location</p>
+          </div>
+          <div class="col-md-8 border-dotted">
+            <input type="text" class="form-control" id="location" readonly="">
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-4">
+            <p class="mb-0">  Discount Applied</p>
+          </div>
+          <div class="col-md-8 border-dotted">
+            <input type="text" class="form-control" id="outletdiscount" readonly="">
+          </div>
+        </div>
+
+        <hr>
+        <div class="row mb-3">
+          <div class="col-md-12">
+            <h5 class="mt-2">  Check-in Details</h5>
+          </div>
+
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-4">
+            <p class="mb-0">  Check-in Time</p>
+          </div>
+          <div class="col-md-8 border-dotted">
+            <input type="text" class="form-control" id="clientName" readonly="">
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-4">
+            <p class="mb-0">  Discount Applied</p>
+          </div>
+          <div class="col-md-8 border-dotted">
+            <input type="text" class="form-control" id="clientName" readonly="">
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-4">
+            <p class="mb-0">  Notes</p>
+          </div>
+          <div class="col-md-8 border-dotted">
+            <input type="text" class="form-control" id="clientId" readonly="">
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+                  </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+<script>
+
+  $(document).ready(function () {
+    BindVisitHistory();
+  });
+
+  function BindVisitHistory() {
+    debugger;
+    var table = $("#VisitHistory-list-table").DataTable({
+      oLanguage: { sProcessing: "<div id='DataTable-loader'></div>" },
+      initComplete: function () {
+        var searchInput = $('#VisitHistory-list-table_filter input');
+        searchInput.attr('placeholder', 'Search...');
+      },
+      "sAjaxSource": "@Url.Action("GetAll", "VisitHistory")",
+      "dom": 'fpi',
+      "order": [[0, "desc"]],
+      "aoColumns": [
+        {
+          "sName": "OutletName",
+          "render": function (data, type, full) {
+            var strString = '';
+            strString += full[0];
+            return strString;
+          }
+        },
+        {
+          "sName": "OutletLocation",
+          "render": function (data, type, full) {
+            var strString = '';
+            strString += full[1];
+            return strString;
+          }
+        },
+        {
+          "sName": "RepresentativeName",
+          "render": function (data, type, full) {
+            var strString = '';
+            strString += full[2];
+            return strString;
+          }
+        },        
+        {
+          "sName": "ClientName",
+          "render": function (data, type, full) {
+            var strString = '';
+            var defaultImage = "/Images/profile2.png";
+            if (!full[8] || full[8].trim() === "") {
+              strString += '<img src="' + defaultImage + '" alt="avatar-2" style="width: 30px; height: 30px; border-radius: 50%; margin-right: 5px;">';
+            } else {
+              strString += '<img src="' + full[8] + '" alt="avatar-2" style="width: 30px; height: 30px; border-radius: 50%; margin-right: 5px;">';
+            }
+            strString += full[3];
+            return strString;
+          }
+        },
+        {
+          "sName": "VisitedDate",
+          "render": function (data, type, full) {
+            var strString = '';
+            strString += full[4];
+            return strString;
+          }
+        },
+        {
+          "sName": "Comments",
+          "bSortable": false,
+          "render": function (data, type, full, meta) {
+            var strString = '';
+      
+            // strString += '&nbsp;<a class="lni lni-eye font-20"" href="@Url.Action("Details", "Client")?Id=' + full[0] + '"  title="Detail"><i class="fa fa-list"></i></a>';
+            // strString += '&nbsp;<button class="btn-transparent" onclick="window.location.href=\'@Url.Action("Details", "VisitHistory")?Id=' + full[0] + '\'" title="View Notes">View Notes</button>';
+            // strString += '&nbsp;<button class="btn-transparent" onclick="openModal(\'' + full[7] + '\',\'' + full[6] + '\')"  title="View Notes">View Notes</button>';
+            strString += '&nbsp;<button class="btn btn-primary btn-sm" onclick="openModal(\'' + full[7] + '\',\'' + full[6] + '\')" data-bs-toggle="modal" data-bs-target="#exampleLargeModal">View Notes</button>';
+            // strString += '&nbsp;<a class="lni lni-eye font-20"" href="@Url.Action("GetAllDetailsOfVisitedClientById", "VisitHistory")?VisitId=' + full[6] + '&ClientId=' + full[7] + '"  title="Detail"><i class="fa fa-list"></i></a>';
+            return strString
+          },
+            "bSortable": true
+        }
+      ]
+     
+    });
+  } 
+
+</script>
+<script>
+  function openModal(clientid, visiterid) {
+    debugger;
+    
+    var baseUrl = '@Url.Action("GetAllDetailsOfVisitedClientById", "VisitHistory", new { area = "Administration" })';
+
+    var url = `${baseUrl}?ClientId=${encodeURIComponent(clientid)}&VisitId=${encodeURIComponent(visiterid)}`;
+
+    $.ajax({
+      type: 'GET', 
+      url: url,
+      success: function (data) {
+       debugger   
+        if (data) {
+          $('#clientId').val(data.clientId);
+          $('#clientName').val(data.clientName);
+          $('#email').val(data.emailAddress);
+          $('#outletName').val(data.outletName);
+          $('#location').val(data.outletLocation);
+          $('#outletdiscount').val(data.state);
+
+          $("#myModal").css("display", "flex");
+        } else {
+          console.error("No data returned from the server.");
+        }
+      }
+    });
+  }
+  function closeModal() {
+    $("#myModal").css("display", "none");
+  }
+</script>

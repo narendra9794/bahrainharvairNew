@@ -1,0 +1,91 @@
+﻿@*     /////////////////////////////////////////////////////////////////////////////////////////
+ *@<style>
+     /* Styles for the popup (modal) */
+     .modal {
+         display: none; /* Hidden by default */
+         position: fixed; /* Stay in place */
+         left: 0;
+         top: 0;
+         width: 100%;
+         height: 100%;
+         background-color: rgba(0, 0, 0, 0.5); /* Black with opacity */
+         justify-content: center;
+         align-items: center;
+     }
+
+     .modal-content {
+         background-color: #fff;
+         padding: 25px;
+         border-radius: 5px;
+         width: 500px;
+         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+     }
+
+     .close-btn {
+       position: absolute;
+       right: 5px;
+       top: 10px;
+       cursor: pointer;
+       font-size: 20px;
+     }
+
+     .form-group {
+         margin-top: 25px;
+     }
+</style>
+<!--start wrapper-->
+<div class="wrapper">
+    <!--start top header-->
+    <?php include('header.php'); ?>
+    <!--start content-->
+    <main class="page-content">
+        <div class="radius-10 px-3">
+            <div class="card-header bg-transparent border-0">
+                <div class="row g-3 align-items-center">
+                    <div class="col-12 col-md-6 col-lg-6">
+                        <h4 class="mb-0 font-600 text-dark"> Loyality Cards </h4>
+                    </div>
+          <div class="col-12 col-md-6 col-lg-6 text-right">
+            @*  <a href="CreateClient" class="btn btn_warning font-14 ms-auto px-4"><i class="fadeIn animated bx bx-plus font-20"></i> Add Client</a> *@
+            <a onclick="openModal()" class="btn btn_warning font-14 ms-auto px-4">
+              <i class="fadeIn animated bx bx-plus font-20"></i> Generate Card
+            </a>
+
+            @*  <button onclick="openModal()" class="btn">Generate Card</button> *@
+          </div>
+                </div>
+
+                <div class="row g-3 align-items-center mt-3">
+                    <div class="col-12 col-md-8 col-lg-8 d-flex">
+                        <div class="d-lg-flex">                           
+                            
+                        </div>
+                    </div>
+
+               
+                </div>
+            </div>
+            <div class="card-body mt-3">
+               
+
+                    @await Html.PartialAsync("LoyalityCardList")
+
+          
+                @* <div class="row mt-4"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="example_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-12 col-md-7 text-right"><div class="dataTables_paginate paging_simple_numbers text-right" id="example_paginate"><ul class="pagination float-right"><li class="paginate_button page-item previous disabled" id="example_previous"><a href="#" aria-controls="example" data-dt-idx="0" tabindex="0" class="page-link">Prev</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="example" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="example" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="example" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="example" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="example" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="example" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="example_next"><a href="#" aria-controls="example" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li></ul></div></div></div> *@
+            </div>
+            
+
+           </div>
+    </main>
+    <!--end page main-->
+    <!--start overlay-->
+    <div class="overlay nav-toggle-icon"></div>
+    <!--end overlay-->
+    <!--Start Back To Top Button-->
+    <a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
+    <!--End Back To Top Button-->
+    <!--start switcher-->
+</div>
+<!--end wrapper-->
+    </div>
+<!-- Bootstrap bundle JS -->

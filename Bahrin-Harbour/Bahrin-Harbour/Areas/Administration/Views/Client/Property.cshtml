@@ -1,0 +1,276 @@
+﻿@*     /////////////////////////////////////////////////////////////////////////////////////////
+ *@
+@{
+  // Layout = null;
+  var a = ViewBag.ClientId;
+
+}
+<style>
+  #property-list-table_paginate {
+    position: absolute;
+    bottom: -10%;
+    right: 8%;
+  }
+
+  #property-list-table_info {
+     position: absolute;
+     bottom: -6%;
+     left: 17%;
+   }
+
+  #property-list-table {
+  border: 1px solid #cfcece;
+  border-radius: 28px;
+  padding: 10px;
+  margin-top: 40px;
+  box-sizing: auto;
+   }
+</style>
+<!--start wrapper-->
+<div class="wrapper">
+  <!--start top header-->
+  <?php include('header.php'); ?>
+  <!--start content-->
+  <main class="page-content">
+    <div class="radius-10 px-3">
+      <div class="card-header bg-transparent border-0">
+        <div class="row g-3 align-items-center">
+          <div class="col-12 col-md-6 col-lg-6">
+            <h4 class="mb-0 font-600 text-dark">Property Details </h4>
+          </div>
+        </div>
+
+        <div class="row g-3 align-items-center mt-3">
+          <div class="col-12 col-md-8 col-lg-8 d-flex">
+            <div class="d-lg-flex">
+        
+            </div>
+          </div>
+
+          <div class="col-12 col-md-4 col-lg-4 text-right">
+            <button type="button" class="btn btn-outline-secondary font-14 me-2" style="background-color: red; color: white; border-color: red;" onclick="Cancel()">Cancel</button>
+            <a href="AddNewProperty?ClientId=@a" class="btn btn_warning font-14 ms-auto px-4"><i class="fadeIn animated bx bx-plus font-20"></i> Add Property</a>
+          </div>
+        </div>
+      </div>
+      <div class="card-body mt-3">
+        <div class="table-responsive">
+          @* @await Html.PartialAsync("PropertyList") *@
+          <table class="table align-middle mb-0" id="property-list-table">
+            <thead class="table-light">
+              <tr>
+                <th>Property Name</th>
+                <th>Country</th>
+                <th>State</th>
+                <th>Address</th>
+                <th>Property Price</th>
+                <th></th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+
+       
+    </div>
+  </main>
+  <!--end page main-->
+  <!--start overlay-->
+  <div class="overlay nav-toggle-icon"></div>
+  <!--end overlay-->
+  <!--Start Back To Top Button-->
+  <a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
+  <!--End Back To Top Button-->
+  <!--start switcher-->
+</div>
+<!--end wrapper-->
+    </div>
+<!-- Bootstrap bundle JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script>
+  function Cancel() {
+    debugger;
+    window.location.href = "/Administration/client/Clients";
+  }
+</script>
+<script>
+  $(document).ready(function () {
+    var clientId = '@ViewBag.ClientId';
+    BindProperty(clientId);
+  });
+  function BindProperty(clientId) {
+    debugger;
+    var table = $("#property-list-table").DataTable({
+      oLanguage: { sProcessing: "<div id='DataTable-loader'></div>" },
+      "sAjaxSource": "@Url.Action("GetAllPropertyDetails", "Client")",
+      "fnServerParams": function (aoData) {
+        aoData.push({ "name": "ClientId", "value": clientId });
+      },
+      "dom": 'fpi',
+      "order": [[0, "desc"]],
+      "aoColumns": [
+        {
+          "sName": "TypeOfProperty",
+          "render": function (data, type, full, meta) {
+            var strString = '';
+            var defaultImage = "/Images/profile2.png";
+            if (!full[5] || full[5].trim() === "") {
+              strString += '<img src="' + defaultImage + '" alt="avatar-2" style="width: 30px; height: 30px; border-radius: 50%; margin-right: 5px;">';
+            } else {
+              strString += '<img src="' + full[5] + '" alt="avatar-2" style="width: 30px; height: 30px; border-radius: 50%; margin-right: 5px;">';
+            }
+            strString += full[0];
+            return strString;
+
+          }
+        },
+        {
+          "sName": "Country",
+          "render": function (data, type, full, meta) {
+            var strString = '';
+            strString += full[1];
+            return strString;
+          }
+        },
+
+        {
+          "sName": "State",
+          "render": function (data, type, full, meta) {
+            var strString = '';
+            strString += full[2];
+            return strString;
+          }
+        },
+        {
+          "sName": "Address",
+          "render": function (data, type, full, meta) {
+            var strString = '';
+            strString += full[3];
+            return strString;
+          }
+        },
+        {
+          "sName": "PropertyPrice",
+          "render": function (data, type, full, meta) {
+            var strString = '';
+            strString += full[4];
+            return strString;
+          }
+        },
+        {
+          "sName": "Status",
+          "bSortable": false,
+          "render": function (data, type, full, meta) {
+            var strString = '';
+            strString += '&nbsp;<a class="lni lni-eye font-20 btn btn-sm btn-primary"" href="@Url.Action("ViewProperty", "Client")?Id=' + full[7] + '"  title="Detail"><i class="fa fa-list"></i></a>';
+            strString += '&nbsp;<a class="fadeIn animated bx bx-pencil btn btn-sm btn-success" href="@Url.Action("EditProperty", "Client")?Id=' + full[7] + '", title="Edit"><i class="fas fa-pencil-alt"></i></a>';
+            strString += '&nbsp;<a class="fadeIn animated bx bx-trash btn btn-sm btn-danger"  onclick="DeleteProperty(\'' + full[7] + '\')" title="Delete"><i class="fa fa-trash"></i></a>';
+
+            return strString
+          },
+          "bSortable": true
+
+        }
+
+      ]
+
+    });
+  }
+  function ChangeClientStatus(Id, isActivate) {
+    var userId = Id;
+    debugger;
+
+    $.confirm({
+      icon: 'fa fa-warning',
+      title: isActivate ? 'Activate..!' : 'Deactive..!',
+      content: `Are you sure you want to ${isActivate ? 'Activate' : 'Deactivate'} this Client? <br/>Do you want to continue?`,
+      buttons: {
+        '<i class="fa fa-check-circle"></i> Confirm': function () {
+          if (String(userId) != '0') {
+            debugger;
+            $.ajax({
+              url: '@Url.Action("ChangeClientStatus", "Client")',
+              type: "POST",
+              // data: { Id: userId },
+              data: { Id: userId, activate: isActivate },
+              dataType: "json",
+              async: false,
+              success: function (response) {
+                if (response.status == true) {
+                  debugger;
+                  toasterSuccessMessage(response.message)
+                  debugger;
+                  $('#property-list-table').DataTable().destroy();
+                  var clientId = '@ViewBag.ClientId';
+                  BindProperty(clientId);
+
+                } else {
+                  toasterErrorMessage(response.message);
+                  StopDataLoader();
+                }
+              },
+              failure: function () {
+                toasterErrorMessage("Error");
+                StopDataLoader();
+              }
+            });
+          }
+          return true;
+        },
+        '<i class="fa fa-times-circle"></i> Cancel': function () {
+          // return false;
+        }
+      }
+    });
+  }
+  function toasterSuccessMessage(message) {
+    toastr.success(message);
+  }
+  function DeleteProperty(Id) {
+    var UserId = Id;
+    var clientId = '@ViewBag.ClientId';
+    debugger;
+    $.confirm({
+      icon: 'fa fa-warning',
+      title: 'Delete..!',
+      content: "You are want to Delete this Property. <br/>Do you want to Continue?",
+      buttons: {
+        '<i class="fa fa-check-circle"></i> Confirm': function () {
+          if (String(UserId) != '0') {
+            $.ajax({
+              url: '@Url.Action("DeletePorpertyById", "Client")',
+              type: "POST",
+              data: { Id: UserId, ClientId: clientId },
+              dataType: "json",
+              async: false,
+              success: function (response) {
+                debugger
+                alert("property details Delete successfully!");
+                debugger
+
+                $("#property-list-table tbody").empty();
+                var clientId = '@ViewBag.ClientId';
+                window.location.href = "/Administration/Client/Property?ClientId=" + clientId;
+                debugger
+                
+              }
+            });
+          }
+          return true;
+        },
+        '<i class="fa fa-times-circle"></i> Cancel': function () {
+          //return false;
+        }
+      }
+    });
+  }
+  
+   
+</script>
+ 
+

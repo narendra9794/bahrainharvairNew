@@ -1,0 +1,95 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div id="CustomError" class="modal fade">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+            <div class="modal-header flex-column">
+                <div class="icon-box" style="border: 3px solid red;">
+                    <i class="ri-error-warning-line" style="color:red;"></i>
+                </div>
+                <h4 class="modal-title w-100">Error!</h4>
+            </div>
+            <div class="modal-body">
+                <p id="ErrorMessage"></p>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="CustomSuccess" class="modal fade">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+            <div class="modal-header flex-column">
+                <div class="icon-box" style="border: 3px solid green;">
+                    <i class="ri-check-line" style="color:green;"></i>
+                </div>
+                <h4 class="modal-title w-100">Success</h4>
+            </div>
+            <div class="modal-body">
+                <p id="SuccessMessage"></p>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="CustomWarning" class="modal fade">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+            <div class="modal-header flex-column">
+                <div class="icon-box" style="border: 3px solid orangered;">
+                    <i class="ri-error-warning-line" style="color:orangered"></i>
+                </div>
+                <h4 class="modal-title w-100">Warning</h4>
+            </div>
+            <div class="modal-body">
+                <p id="WarningMessage"></p>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="CustomInfo" class="modal fade">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+            <div class="modal-header flex-column">
+                <div class="icon-box" style="border: 3px solid blue;">
+                    <i class="ri-information-line" style="color:blue;"></i>
+                </div>
+                <h4 class="modal-title w-100">Information</h4>
+            </div>
+            <div class="modal-body">
+                <p id="InfoMessage"></p>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="CustomLoader" class="modal fade" style="pointer-events:none;">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content" style="background: transparent; border:none;">
+            <div class="modal-body" style="margin-top:50%">
+                <img src="~/images/BookLoader.gif" style="width:100px; height:100px;"/>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="AudioPlayer" class="modal fade" style="pointer-events:none;">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content" style="pointer-events:auto;">
+            <div class="modal-header flex-column">
+                <div class="icon-box">
+                    <i class="ri-play-circle-line" style="margin-top:-4px;"></i>
+                </div>
+                <h4 class="modal-title w-100" id="SaveHeading"></h4>
+                <button onclick="Chapter.CloseBookAudioWindow()" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <audio id="AudioPlayerElement" controls>
+                    <source id="mp3_src" type="audio/mp3" />
+                </audio>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button onclick="Chapter.CloseBookAudioWindow()" id="CancelDelete" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

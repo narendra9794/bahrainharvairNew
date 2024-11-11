@@ -1,0 +1,92 @@
+name: FTP Deploy ASP.NET
+
+on:
+  push:
+    branches:
+      - master  # Trigger deployment to staging on push to master
+  workflow_dispatch:  # Manual trigger for production deployment
+
+jobs:
+  build-and-deploy-staging:
+    if: github.event_name != 'workflow_dispatch'  # Only run for push events, not manually triggered
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '6.x'  # Use the required version
+
+      - name: Restore Dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Publish
+        run: dotnet publish -c Release -o ./publish
+
+      - name: Stop IIS
+        run: |
+          Stop-Service W3SVC -Force
+        shell: pwsh
+
+      - name: FTP Deploy to Staging
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./publish/
+          server-dir: ${{ secrets.FTP_REMOTE_PATH_STAGING }}  # Staging remote path
+          timeout: 30000
+
+      - name: Start IIS
+        run: |
+          Start-Service W3SVC
+        shell: pwsh
+
+  build-and-deploy-production:
+    if: github.event_name == 'workflow_dispatch'  # Only run for manual trigger
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '6.x'  # Use the required version
+
+      - name: Restore Dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Publish
+        run: dotnet publish -c Release -o ./publish
+
+      - name: Stop IIS
+        run: |
+          Stop-Service W3SVC -Force
+        shell: pwsh
+
+      - name: FTP Deploy to Production
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./publish/
+          server-dir: ${{ secrets.FTP_REMOTE_PATH_PRODUCTION }}  # Production remote path
+          timeout: 30000
+
+      - name: Start IIS
+        run: |
+          Start-Service W3SVC
+        shell: pwsh

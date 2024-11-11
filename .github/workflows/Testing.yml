@@ -18,7 +18,7 @@ jobs:
       - name: Setup .NET Core SDK
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '6.x'  # Use the required version
+          dotnet-version: '8.x'  # Use the required version
 
       - name: Restore Dependencies
         run: dotnet restore
@@ -60,7 +60,7 @@ jobs:
       - name: Setup .NET Core SDK
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '6.x'  # Use the required version
+          dotnet-version: '8.x'  # Use the required version
 
       - name: Restore Dependencies
         run: dotnet restore

@@ -41,7 +41,7 @@ jobs:
           username: ${{ secrets.FTP_USERNAME_STAGING }}
           password: ${{ secrets.FTP_PASSWORD_STAGING }}
           local-dir: ./publish/
-          #server-dir: Application/Test_cicd/ # Staging remote path
+          server-dir: / # Staging remote path
           timeout: 30000
 
       - name: Start IIS

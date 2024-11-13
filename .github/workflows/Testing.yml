@@ -84,7 +84,7 @@ jobs:
           username: ${{ secrets.FTP_USERNAME_PRODUCTION }}
           password: ${{ secrets.FTP_PASSWORD_PRODUCTION }}
           local-dir: ./publish/
-          server-dir: ${{ secrets.FTP_REMOTE_PATH_PRODUCTION }}  # Production remote path
+          server-dir: /Application/cicdlive/  # Production remote path
           timeout: 30000
 
       - name: Start IIS
